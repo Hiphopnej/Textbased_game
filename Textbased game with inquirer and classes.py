@@ -45,4 +45,12 @@ class Charachter:
         else:
             enemy_object.take_damage(total_dmg, enemy_object, player_object)
             slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg")
-        
+    
+    def heal(self):
+        #Calculate heal amount
+        heal_amount = random.randint(self.healingLower, self.healingHigher)
+
+        #Heal
+        self.health += heal_amount
+        print(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
+
