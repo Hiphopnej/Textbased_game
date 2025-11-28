@@ -26,6 +26,9 @@ class Charachter:
         self.healingLower = healingLower
         self.healingHigher = healingHigher
         self.name = name
+
+    def take_damage(self, damage_taken):
+        self.health -= damage_taken
     
     def attack(self, enemy_object, player_object):
         #Calulate dmg
@@ -40,10 +43,10 @@ class Charachter:
         #Deals dmg based on if critted or not
         if crit == 11:
             crit_dmg = total_dmg * 1.5
-            enemy_object.take_damage(crit_dmg, enemy_object, player_object)
+            enemy_object.take_damage(crit_dmg)
             slow_text(f"You got a crit and dealt {crit_dmg} to {enemy_object.name}")
         else:
-            enemy_object.take_damage(total_dmg, enemy_object, player_object)
+            enemy_object.take_damage(total_dmg)
             slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg")
     
     def heal(self):
