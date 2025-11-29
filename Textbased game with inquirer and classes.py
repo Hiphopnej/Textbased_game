@@ -57,3 +57,14 @@ class Charachter:
         self.health += heal_amount
         print(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
 
+#Player class that inherits from Charachter class
+class Player(Charachter):
+    def __init__(self, health, dmgLower, dmgHigher, base_dmg, healingLower, healingHigher, name, inventory):
+        self.health = health
+        self.dmgLower = dmgLower
+        self.dmgHigher = dmgHigher
+        self.base_dmg = base_dmg
+        self.healingLower = healingLower
+        self.healingHigher = healingHigher
+        self.name = name
+        self.inventory = inventory
