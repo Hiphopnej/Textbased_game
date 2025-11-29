@@ -83,3 +83,26 @@ class Player(Charachter):
         else:
             self.inventory.append("health brew")
             slow_text("You got a health brew")
+
+    def use_item(self, enemy_object):
+        if len(self.inventory) <= 0:
+            slow_text("You don't have any items")
+        else:
+            chosen_item = inquirer.select(
+                message=f"What item do you want to use: {self.inventory}",
+                #Not sure if this works
+                choices = [self.inventory]
+            ).execute()
+            if chosen_item == "ecologic egg launcher":
+                enemy_object.take_damage(1)
+                slow_text(f"{enemy_object.name} took 1 dmg")
+            elif chosen_item == "godslayer":
+                enemy_object.take_damage(1000000000000)
+                slow_text(f"{enemy_object.name} took 1000000000000 dmg")
+            elif chosen_item == "attack potion":
+                enemy_object.take_damage(80)
+                slow_text(f"{enemy_object.name} took 80 dmg")
+                self.inventory.remove("attack potion")
+            elif chosen_item == "health potion":
+                self.health += 100
+                self.inventory.remove("health potion")
