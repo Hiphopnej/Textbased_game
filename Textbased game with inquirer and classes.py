@@ -30,7 +30,7 @@ class Charachter:
     def take_damage(self, damage_taken):
         self.health -= damage_taken
     
-    def attack(self, enemy_object, player_object):
+    def attack(self, enemy_object):
         #Calulate dmg
         dmg = random.randint(self.dmgLower, self.dmgHigher)
 
@@ -55,7 +55,7 @@ class Charachter:
 
         #Heal
         self.health += heal_amount
-        print(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
+        slow_text(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
 
 #Player class that inherits from Charachter class
 class Player(Charachter):
@@ -68,3 +68,18 @@ class Player(Charachter):
         self.healingHigher = healingHigher
         self.name = name
         self.inventory = inventory
+
+    def pick_up_item(self):
+        item_number = random.randint(1,1000)
+        if item_number == 1000:
+            self.inventory.append("ecologic egg launcher")
+            slow_text("You got a Ecologic egg launcher")
+        elif item_number >= 989 and item_number < 1000:
+            self.inventory.append("godslayer")
+            slow_text("You got the Godslayer")
+        elif item_number >= 0 and item_number <= 495:
+            self.inventory.append("attack brew")
+            slow_text("You got a attack brew")
+        else:
+            self.inventory.append("health brew")
+            slow_text("You got a health brew")
