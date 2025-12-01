@@ -57,6 +57,12 @@ class Charachter:
         self.health += heal_amount
         slow_text(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
 
+    def getName(self):
+        return self.name
+    
+    def getHealth(self):
+        return self.health
+
 #Player class that inherits from Charachter class
 class Player(Charachter):
     def __init__(self, health, dmgLower, dmgHigher, base_dmg, healingLower, healingHigher, name, inventory):
@@ -106,3 +112,41 @@ class Player(Charachter):
             elif chosen_item == "health potion":
                 self.health += 100
                 self.inventory.remove("health potion")
+
+#Credits
+def credits():
+    slow_text("Code by Alvar Eklind")
+    slow_text("Story by Alvar Eklind")
+    slow_text("Thanks for playing and hope you enjoyed yourself")
+
+#Combat function
+def combat(enemies, enemy_object, player_object):
+    #For loop to allow for double battles
+    for enemy in enemies:
+        print("--------------------------------------------------------")
+        
+        #Add random intros to the battles
+        intro = random.randint(1,3)
+        match intro:
+            case 1:
+                slow_text(f"A {enemy_object.getName()} has appeared")
+            case 2:
+                slow_text(f"You're fighting against a {enemy_object.getName()}")
+            case 3:
+                slow_text(f"A {enemy_object.getName()} attacks")
+
+        #The battle begins   
+        while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
+            #Write out player health and enemy health
+            slow_text(f"You have {player_object.getHealth()}hp and {enemy_object.getName()} has {enemy_object.getHealth()}hp")
+            print("--------------------------------------------------------")
+            start_first = random.randint(1,2)
+            if start_first == 1:
+                slow_text(f"{player_object.getHealth()} is faster than you")
+                #Choose a attack for the enemy
+                attack_chosen = random.randint(1,2)
+                if attack_chosen == 1:
+                    enemy_object.attack(player_object)
+                    if player_object.getHealth() <= 0:
+                        slow_text("You died")
+                        exit()
