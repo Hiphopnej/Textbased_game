@@ -189,3 +189,38 @@ def combat(enemies, enemy_object, player_object):
                         exit()
                 elif attack_chosen == 2:
                     enemy_object.heal()
+
+#Add enemy function
+"""
+    Add enemy shall be used as many times as the amount of enemy you are suppuoesed to fight
+    Example with two enemys:
+    add_enemy(enemys, "Shadow creature");
+    add_enemy(enemys, "Shadow creature");
+    combat(enemys)
+    where enemy is a list
+"""
+
+def add_enemy(enemies, enemyName):
+    enemies.append(enemyName)
+
+#Make max items 5
+def max_items(items, player_object):
+    if len(items) == 5:
+        slow_text("You can't pick up any more items")
+    else:
+        player_object.pick_up_item()
+
+# The final boss of the door ending
+# Called with final_door_fight(player, forest_shadow, enemies)
+def final_door_fight(player_object, enemy_object, enemies):
+    slow_text(f"When {player_object.getName()} went though the next door he finally got to the final room")
+    slow_text("There he meets")
+    slow_text("The final boss: The forest shadow")
+    slow_text("This is gonna be hard")
+    add_enemy(enemies, enemy_object.getName())
+    combat(enemies, enemy_object, player_object)
+    slow_text(f"When {player_object.getName()} defeated the forest shadow the temple suddenly started to fall together")
+    slow_text(f"{player_object.getName()} tries to escapes but sadly doesn't have enough time")
+    slow_text(f"The evil mystery is now solved and legends of {player_object.getName()} was told for decades to come")
+    slow_text("The end")
+    credits()
