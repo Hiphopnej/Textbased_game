@@ -138,6 +138,7 @@ def combat(enemies, enemy_object, player_object):
         #The battle begins   
         while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
             #Write out player health and enemy health
+            print("--------------------------------------------------------")
             slow_text(f"You have {player_object.getHealth()}hp and {enemy_object.getName()} has {enemy_object.getHealth()}hp")
             print("--------------------------------------------------------")
             start_first = random.randint(1,2)
@@ -150,3 +151,41 @@ def combat(enemies, enemy_object, player_object):
                     if player_object.getHealth() <= 0:
                         slow_text("You died")
                         exit()
+                elif attack_chosen == 2:
+                    enemy_object.heal()
+                move_choice = inquirer.select(
+                    message="What do you want to do?",
+                    choices = ["Attack", "Heal", "Item"]
+                ).execute()
+                if move_choice.lower() == "attack":
+                    player_object.attack(enemy_object)
+                    if enemy_object.getHealth <= 0:
+                        slow_text("You this battle")
+                        break
+                elif move_choice.lower() == "heal":
+                    player_object.heal()
+                elif move_choice.lower() == "item":
+                    player_object.use_item(enemy_object)
+            elif start_first == 2:
+                # Your attack
+                move_choice = inquirer.select(
+                    message="What do you want to do?",
+                    choices = ["Attack", "Heal", "Item"]
+                ).execute()
+                if move_choice.lower() == "attack":
+                    player_object.attack(enemy_object)
+                    if enemy_object.getHealth <= 0:
+                        slow_text("You this battle")
+                        break
+                elif move_choice.lower() == "heal":
+                    player_object.heal()
+                elif move_choice.lower() == "item":
+                    player_object.use_item(enemy_object)
+                attack_chosen = random.randint(1,2)
+                if attack_chosen == 1:
+                    enemy_object.attack(player_object)
+                    if player_object.getHealth() <= 0:
+                        slow_text("You died")
+                        exit()
+                elif attack_chosen == 2:
+                    enemy_object.heal()
