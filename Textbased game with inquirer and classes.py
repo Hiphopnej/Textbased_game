@@ -402,3 +402,26 @@ if camp_choice == "Camp":
         slow_text("The end                                                     ....or is it?")
         credits()
 
+# If you choose to explore
+elif camp_choice == "Explore":
+    slow_text("I am going to try to find out what is in this forest")
+    slow_text("You find an item on the ground")
+    max_items(items, player)
+    slow_text("You can hear some rumbling in the bushes")
+    slow_text("Suddenly a forest beast jumps out from the bushes")
+    add_enemy(enemies, forest_beast.getName())
+    combat(enemies, forest_beast, player)
+    slow_text("That was close")
+    slow_text("This forest is just it was in the stories")
+    slow_text(f"While {player.getName()} was exploring the forest he found and unknown person")
+    slow_text("The person introduces themselves as Bartolomeus")
+    slow_text("Bartolomeus said he had previously explored the forest")
+    slow_text("He said had failed to defeat the evil but manages to flee and now lives in the forest")
+    slow_text("Bartolomeus tells you about a temple in the middle of the forest that houses a monster named The Forest Shadow")
+    slow_text("He gives you an item")
+    max_items(items, player)
+    slow_text("Bartolomeus tells you that the shadows creature are part of the forest shadows power")
+
+    bart_choice = inquirer_input(slow_text("Do you trust Bartolomeus?"), ["Yes", "No"])
+
+    #If you trust bartolomeus(dark ending)
