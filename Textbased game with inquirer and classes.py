@@ -159,7 +159,7 @@ def combat(enemies, enemy_object, player_object):
                 ).execute()
                 if move_choice.lower() == "attack":
                     player_object.attack(enemy_object)
-                    if enemy_object.getHealth <= 0:
+                    if enemy_object.getHealth() <= 0:
                         slow_text("You this battle")
                         break
                 elif move_choice.lower() == "heal":
@@ -174,7 +174,7 @@ def combat(enemies, enemy_object, player_object):
                 ).execute()
                 if move_choice.lower() == "attack":
                     player_object.attack(enemy_object)
-                    if enemy_object.getHealth <= 0:
+                    if enemy_object.getHealth() <= 0:
                         slow_text("You this battle")
                         break
                 elif move_choice.lower() == "heal":
@@ -310,3 +310,6 @@ if camp_choice == "Camp":
     slow_text(f"{player.getName()} was getting ready to sleep when suddenly")
     slow_text("A forest beast appears")
     # Your very first fight
+    add_enemy(enemies, forest_beast.getName())
+    combat(enemies, forest_beast, player)
+    slow_text("That was close, hope it's safe to sleep now")
