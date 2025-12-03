@@ -17,7 +17,7 @@ def slow_text(message):
         time.sleep(0.03)
 
 class Charachter:
-    #Initiate all varibles
+    # Initiate all varibles
     def __init__(self, health, dmgLower, dmgHigher, base_dmg, healingLower, healingHigher, name):
         self.health = health
         self.dmgLower = dmgLower
@@ -31,16 +31,16 @@ class Charachter:
         self.health -= damage_taken
     
     def attack(self, enemy_object):
-        #Calulate dmg
+        # Calulate dmg
         dmg = random.randint(self.dmgLower, self.dmgHigher)
 
-        #Calculate crit
+        # Calculate crit
         crit = random.randint(1,20)
 
-        #Calculate total damage
+        # Calculate total damage
         total_dmg = self.base_dmg + dmg
 
-        #Deals dmg based on if critted or not
+        # Deals dmg based on if critted or not
         if crit == 11:
             crit_dmg = total_dmg * 1.5
             enemy_object.take_damage(crit_dmg)
@@ -50,10 +50,10 @@ class Charachter:
             slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg")
     
     def heal(self):
-        #Calculate heal amount
+        # Calculate heal amount
         heal_amount = random.randint(self.healingLower, self.healingHigher)
 
-        #Heal
+        # Heal
         self.health += heal_amount
         slow_text(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
 
@@ -63,7 +63,7 @@ class Charachter:
     def getHealth(self):
         return self.health
 
-#Player class that inherits from Charachter class
+# Player class that inherits from Charachter class
 class Player(Charachter):
     def __init__(self, health, dmgLower, dmgHigher, base_dmg, healingLower, healingHigher, name, inventory):
         self.health = health
@@ -96,7 +96,7 @@ class Player(Charachter):
         else:
             chosen_item = inquirer.select(
                 message=slow_text(f"What item do you want to use: {self.inventory}"),
-                #Not sure if this works
+                # Not sure if this works
                 choices = [self.inventory]
             ).execute()
             if chosen_item == "ecologic egg launcher":
@@ -113,19 +113,19 @@ class Player(Charachter):
                 self.health += 100
                 self.inventory.remove("health potion")
 
-#Credits
+# Credits
 def credits():
     slow_text("Code by Alvar Eklind")
     slow_text("Story by Alvar Eklind")
     slow_text("Thanks for playing and hope you enjoyed yourself")
 
-#Combat function
+# Combat function
 def combat(enemies, enemy_object, player_object):
-    #For loop to allow for double battles
+    # For loop to allow for double battles
     for enemy in enemies:
         print("--------------------------------------------------------")
         
-        #Add random intros to the battles
+        # Add random intros to the battles
         intro = random.randint(1,3)
         match intro:
             case 1:
@@ -135,16 +135,16 @@ def combat(enemies, enemy_object, player_object):
             case 3:
                 slow_text(f"A {enemy_object.getName()} attacks")
 
-        #The battle begins   
+        # The battle begins   
         while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
-            #Write out player health and enemy health
+            # Write out player health and enemy health
             print("--------------------------------------------------------")
             slow_text(f"You have {player_object.getHealth()}hp and {enemy_object.getName()} has {enemy_object.getHealth()}hp")
             print("--------------------------------------------------------")
             start_first = random.randint(1,2)
             if start_first == 1:
                 slow_text(f"{player_object.getHealth()} is faster than you")
-                #Choose a attack for the enemy
+                # Choose a attack for the enemy
                 attack_chosen = random.randint(1,2)
                 if attack_chosen == 1:
                     enemy_object.attack(player_object)
@@ -190,7 +190,7 @@ def combat(enemies, enemy_object, player_object):
                 elif attack_chosen == 2:
                     enemy_object.heal()
 
-#Add enemy function
+# Add enemy function
 """
     Add enemy shall be used as many times as the amount of enemy you are suppuoesed to fight
     Example with two enemys:
@@ -203,7 +203,7 @@ def combat(enemies, enemy_object, player_object):
 def add_enemy(enemies, enemyName):
     enemies.append(enemyName)
 
-#Make max items 5
+# Make max items 5
 def max_items(items, player_object):
     if len(items) == 5:
         slow_text("You can't pick up any more items")
@@ -278,7 +278,6 @@ if rule_choice == "Yes":
     print("--------------------------------------------------------")
     slow_text("Welcome to The Forest Adventure")
     slow_text("This is a turnbased game the allows you to choose your own path")
-    slow_text("Remember to always write in lowercase")
     slow_text("After each fight you will get full health except for if you encounter multiple enemies")
     slow_text("You get an item each time you kill a shadow creature but you can only have a maximum of five items")
     slow_text("There are a total of four different items you can find with varying rarities and effects")
@@ -292,4 +291,22 @@ are_you_ready = inquirer.select(
     choices = ["Yes"]
 ).execute()
 
-#The game begins
+# The game begins
+slow_text("There once ws a mysterious forest")
+slow_text("It was dim and quiet and all who lived in the nearby village was telling scary stories about it")
+slow_text(f"One day {player.getName()} decided to try to investigate the mystery surrounding the forest so that no one has to be afraid anymore")
+slow_text(f"{player.getName()} takes his sword and enters the forest")
+slow_text("I wonder what can be so mysterious about this forest")
+camp_choice = inquirer.select(
+    message=slow_text("Should I first put up a camp or should I continue exploring?"),
+    choices = ["Camp", "Explore"]
+).execute()
+
+# Camp route
+if camp_choice == "Camp":
+    slow_text("I should probably put up a camp first")
+    slow_text("What is this?")
+    player.pick_up_item()
+    slow_text(f"{player.getName()} was getting ready to sleep when suddenly")
+    slow_text("A forest beast appears")
+    # Your very first fight
