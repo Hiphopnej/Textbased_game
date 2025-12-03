@@ -95,7 +95,7 @@ class Player(Charachter):
             slow_text("You don't have any items")
         else:
             chosen_item = inquirer.select(
-                message=f"What item do you want to use: {self.inventory}",
+                message=slow_text(f"What item do you want to use: {self.inventory}"),
                 #Not sure if this works
                 choices = [self.inventory]
             ).execute()
@@ -154,7 +154,7 @@ def combat(enemies, enemy_object, player_object):
                 elif attack_chosen == 2:
                     enemy_object.heal()
                 move_choice = inquirer.select(
-                    message="What do you want to do?",
+                    message=slow_text("What do you want to do?"),
                     choices = ["Attack", "Heal", "Item"]
                 ).execute()
                 if move_choice.lower() == "attack":
@@ -169,7 +169,7 @@ def combat(enemies, enemy_object, player_object):
             elif start_first == 2:
                 # Your attack
                 move_choice = inquirer.select(
-                    message="What do you want to do?",
+                    message=slow_text("What do you want to do?"),
                     choices = ["Attack", "Heal", "Item"]
                 ).execute()
                 if move_choice.lower() == "attack":
@@ -247,3 +247,49 @@ def door_code(which_door, amount_of_enemies, enemy_object, player_object, enemie
         max_items(items, player_object)
         max_items(items, player_object)
         max_items(items, player_object)
+
+# main
+
+# lists
+enemies = []
+items = []
+
+player_name = input("Enter your name ")
+
+# Create all objects
+player = Player(200, 20, 90, 10, 50, 80, player_name, [])
+forest_beast = Charachter(50, 10, 20, 5, 10, 20, "Forest Beast")
+shadow_creature = Charachter(100, 30, 50, 10, 20, 30, "Shadow Creature")
+the_forest_shadow = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
+# Hard mode objects
+forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
+shadow_creature_hard = Charachter(150, 45, 75, 15, 35, 50, "Shadow Creature")
+the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: The Forest Shadow")
+# Hardest boss in the game
+Pablo = Charachter(250, 50, 90, 15 ,45, 60, "The True Final Boss: Pablo")
+
+# Asks if you want to know the rules
+rule_choice = inquirer.select(
+    message=slow_text("Do you want to know the rules?"),
+    choices = ["Yes", "No"]
+).execute()
+
+if rule_choice == "Yes":
+    print("--------------------------------------------------------")
+    slow_text("Welcome to The Forest Adventure")
+    slow_text("This is a turnbased game the allows you to choose your own path")
+    slow_text("Remember to always write in lowercase")
+    slow_text("After each fight you will get full health except for if you encounter multiple enemies")
+    slow_text("You get an item each time you kill a shadow creature but you can only have a maximum of five items")
+    slow_text("There are a total of four different items you can find with varying rarities and effects")
+    slow_text("You max damage and healing is 100 and 80 respectivly")
+    slow_text("You and the enemy have a 5 percent chance to crit which deals 1.5x damage")
+    slow_text("Good luck and have fun")
+    print("--------------------------------------------------------")
+
+are_you_ready = inquirer.select(
+    message=slow_text("Are you ready to start?"),
+    choices = ["Yes"]
+).execute()
+
+#The game begins
