@@ -9,6 +9,12 @@ choice = inquirer.select(
     choices = ["Start", "End"]
 ).execute()
 """
+def inquirer_input(message_param, options):
+    choice = inquirer.select(
+        message=message_param,
+        choices = options
+    ).execute()
+    return choice
 
 def slow_text(message):
     message += "\n"
@@ -55,7 +61,7 @@ class Charachter:
 
         # Heal
         self.health += heal_amount
-        slow_text(f"{self.name} healed {heal_amount}hp and now thier total hp is: {self.health}hp")
+        slow_text(f"{self.name} healed {heal_amount}hp and now their total hp is: {self.health}hp")
 
     def getName(self):
         return self.name
@@ -94,11 +100,7 @@ class Player(Charachter):
         if len(self.inventory) <= 0:
             slow_text("You don't have any items")
         else:
-            chosen_item = inquirer.select(
-                message=slow_text(f"What item do you want to use: {self.inventory}"),
-                # Not sure if this works
-                choices = [self.inventory]
-            ).execute()
+            chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory])
             if chosen_item == "ecologic egg launcher":
                 enemy_object.take_damage(1)
                 slow_text(f"{enemy_object.name} took 1 dmg")
@@ -153,14 +155,12 @@ def combat(enemies, enemy_object, player_object):
                         exit()
                 elif attack_chosen == 2:
                     enemy_object.heal()
-                move_choice = inquirer.select(
-                    message=slow_text("What do you want to do?"),
-                    choices = ["Attack", "Heal", "Item"]
-                ).execute()
+                move_choice = inquirer_input(slow_text("What do you want to do?"), ["Attack", "Heal", "Item"])
                 if move_choice.lower() == "attack":
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You this battle")
+                        enemies.remove(enemy_object.getName())
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -176,6 +176,7 @@ def combat(enemies, enemy_object, player_object):
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You this battle")
+                        enemies.remove(enemy_object.getName())
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -257,7 +258,7 @@ items = []
 player_name = input("Enter your name ")
 
 # Create all objects
-player = Player(200, 20, 90, 10, 50, 80, player_name, [])
+player = Player(200, 20, 90, 10, 50, 80, player_name, items)
 forest_beast = Charachter(50, 10, 20, 5, 10, 20, "Forest Beast")
 shadow_creature = Charachter(100, 30, 50, 10, 20, 30, "Shadow Creature")
 the_forest_shadow = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
@@ -266,7 +267,7 @@ forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
 shadow_creature_hard = Charachter(150, 45, 75, 15, 35, 50, "Shadow Creature")
 the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: The Forest Shadow")
 # Hardest boss in the game
-Pablo = Charachter(250, 50, 90, 15 ,45, 60, "The True Final Boss: Pablo")
+Bartolomeus = Charachter(250, 50, 90, 15 ,45, 60, "The True Final Boss: Bartolomeus")
 
 # Asks if you want to know the rules
 rule_choice = inquirer.select(
@@ -297,10 +298,7 @@ slow_text("It was dim and quiet and all who lived in the nearby village was tell
 slow_text(f"One day {player.getName()} decided to try to investigate the mystery surrounding the forest so that no one has to be afraid anymore")
 slow_text(f"{player.getName()} takes his sword and enters the forest")
 slow_text("I wonder what can be so mysterious about this forest")
-camp_choice = inquirer.select(
-    message=slow_text("Should I first put up a camp or should I continue exploring?"),
-    choices = ["Camp", "Explore"]
-).execute()
+camp_choice = inquirer_input(slow_text("Should I first put up a camp or should I continue exploring?"), ["Camp", "Explore"])
 
 # Camp route
 if camp_choice == "Camp":
@@ -313,3 +311,31 @@ if camp_choice == "Camp":
     add_enemy(enemies, forest_beast.getName())
     combat(enemies, forest_beast, player)
     slow_text("That was close, hope it's safe to sleep now")
+    print("--------------------------------------------------------")
+    slow_text("The next day")
+    print("--------------------------------------------------------")
+    slow_text("I need to find out where the monster came from")
+    slow_text("I should try to get to the middle of the forest")
+    slow_text(f"When {player.getName()} gets farther in he finds a shadow creature")
+    add_enemy(enemies, shadow_creature.getName())
+    combat(enemies, shadow_creature, player)
+    max_items(items, player)
+    slow_text("That shadow creature was stronger than that forest beast")
+    slow_text("It must be related to the mystery")
+    slow_text(f"When {player.getName()} get to the middle of the forest, he discovers a temple")
+    slow_text(f"This temple must be related to the evil of this forest")
+    temple_path_choice = inquirer.select(
+        message=slow_text("Should I try to find a path around or just go in at the front?"),
+        choices = ["Front", "Back"]
+    ).execute()
+
+    # Front route
+    if temple_path_choice == "Front":
+        slow_text(f"When {player.getName()} enters the temple he encounters two shadow creatures")
+        add_enemy(enemies, shadow_creature.getName())
+        add_enemy(enemies, shadow_creature.getName())
+        combat(enemies, shadow_creature, player)
+        max_items(items, player)
+        max_items(items, player)
+        
+        #The door path begins
