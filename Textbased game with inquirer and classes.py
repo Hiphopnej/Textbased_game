@@ -387,3 +387,18 @@ if camp_choice == "Camp":
                 elif door_choice == 2:
                     door_code(door_choice, 2, shadow_creature, player, enemies, items)
                     final_door_fight(player, the_forest_shadow, enemies)
+    
+    #Back route
+    elif temple_path_choice == "Back":
+        slow_text(f"{player.getName()} walks around and finds a back entrance")
+        slow_text("Thanks to taking the back entance you get straight to")
+        slow_text("The Final Boss: The Forest Shadow")
+        add_enemy(enemies, the_forest_shadow.getName())
+        combat(enemies, the_forest_shadow, player)
+        slow_text(f"When {player.getName()} defeats The Forest Shadow the temple start to crumble")
+        slow_text("Thanks to taking the back exit you manage to flee")
+        slow_text("You return to the village where you tell the story of what has happened")
+        slow_text(f"The story of {player.getName()} is told for decades to come")
+        slow_text("The end                                                     ....or is it?")
+        credits()
+
