@@ -159,7 +159,7 @@ def combat(enemies, enemy_object, player_object):
                 if move_choice.lower() == "attack":
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
-                        slow_text("You this battle")
+                        slow_text("You win the battle")
                         enemies.remove(enemy_object.getName())
                         break
                 elif move_choice.lower() == "heal":
@@ -168,14 +168,11 @@ def combat(enemies, enemy_object, player_object):
                     player_object.use_item(enemy_object)
             elif start_first == 2:
                 # Your attack
-                move_choice = inquirer.select(
-                    message=slow_text("What do you want to do?"),
-                    choices = ["Attack", "Heal", "Item"]
-                ).execute()
+                move_choice = inquirer_input(slow_text("What do you want to do?"), ["Attack", "Heal", "Item"])
                 if move_choice.lower() == "attack":
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
-                        slow_text("You this battle")
+                        slow_text("You win the battle")
                         enemies.remove(enemy_object.getName())
                         break
                 elif move_choice.lower() == "heal":
@@ -270,10 +267,7 @@ the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: Th
 Bartolomeus = Charachter(250, 50, 90, 15 ,45, 60, "The True Final Boss: Bartolomeus")
 
 # Asks if you want to know the rules
-rule_choice = inquirer.select(
-    message=slow_text("Do you want to know the rules?"),
-    choices = ["Yes", "No"]
-).execute()
+rule_choice = inquirer_input(slow_text("Do you want to know the rules?"), ["Yes", "No"])
 
 if rule_choice == "Yes":
     print("--------------------------------------------------------")
@@ -287,10 +281,7 @@ if rule_choice == "Yes":
     slow_text("Good luck and have fun")
     print("--------------------------------------------------------")
 
-are_you_ready = inquirer.select(
-    message=slow_text("Are you ready to start?"),
-    choices = ["Yes"]
-).execute()
+are_you_ready = inquirer_input(slow_text("Are you ready to start?"), ["Yes"])
 
 # The game begins
 slow_text("There once ws a mysterious forest")
@@ -324,10 +315,7 @@ if camp_choice == "Camp":
     slow_text("It must be related to the mystery")
     slow_text(f"When {player.getName()} get to the middle of the forest, he discovers a temple")
     slow_text(f"This temple must be related to the evil of this forest")
-    temple_path_choice = inquirer.select(
-        message=slow_text("Should I try to find a path around or just go in at the front?"),
-        choices = ["Front", "Back"]
-    ).execute()
+    temple_path_choice = inquirer_input(slow_text("Should I try to find a path around or just go in at the front?"), ["Front", "Back"])
 
     # Front route
     if temple_path_choice == "Front":
@@ -336,6 +324,66 @@ if camp_choice == "Camp":
         add_enemy(enemies, shadow_creature.getName())
         combat(enemies, shadow_creature, player)
         max_items(items, player)
-        max_items(items, player)
         
         #The door path begins
+        slow_text(f"When {player.getName()} enters the temple he encounters two shadow creatures")
+        add_enemy(enemies, shadow_creature.getName())
+        add_enemy(enemies, shadow_creature.getName())
+        combat(enemies, shadow_creature, player)
+        max_items(items, player)
+        door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+        # If you choose 1
+        if door_choice == 1:
+            door_code(door_choice, 1, shadow_creature, player, enemies, items)
+            door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+            # If you choose 1, 1
+            if door_choice == 1:
+                door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+                # If you choose 1, 1, 1
+                if door_choice == 1:
+                    door_code(door_choice, 3, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+                # If you choose 1, 1, 2
+                elif door_choice == 2:
+                    door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+            # If you choose 1, 2
+            elif door_choice == 2:
+                door_code(door_choice, 1, shadow_creature, player, enemies, items)
+                door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+                # If you choose 1, 2, 1
+                if door_choice == 1:
+                    door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+                # If you choose 1, 2, 2
+                elif door_choice == 2:
+                    door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+        # If you choose 2
+        elif door_choice == 2:
+            door_code(door_choice, 3, shadow_creature, player, enemies, items)
+            door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+            # If you choose 2, 1
+            if door_choice == 1:
+                door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+                # If you choose 2, 1, 1
+                if door_choice == 1:
+                    door_code(door_choice, 1, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+                # If you choose 2, 1, 2
+                elif door_choice == 2:
+                    door_code(door_choice, 1, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+            elif door_choice == 2:
+                door_code(door_choice, 3, shadow_creature, player, enemies, items)
+                door_choice = inquirer_input(slow_text("There are two doors in fornt of you"), ["1", "2"])
+                # If you choose 2, 2, 1
+                if door_choice == 1:
+                    door_code(door_choice, 1, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
+                # If you choose 2, 2, 2
+                elif door_choice == 2:
+                    door_code(door_choice, 2, shadow_creature, player, enemies, items)
+                    final_door_fight(player, the_forest_shadow, enemies)
