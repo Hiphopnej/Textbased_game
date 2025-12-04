@@ -5,13 +5,14 @@ from text_functions import slow_text
 # Combat function
 def combat(enemies, enemy_object, player_object, items):
     #Ensures that you enter battle with max hp
-    player_object.setHealth()
+    player_object.setHealth(200)
+    enemy_health = enemy_object.getHealth()
     # For loop to allow for double battles
     for enemy in enemies:
         print("--------------------------------------------------------")
         
         # Add random intros to the battles
-        intro = random.randint(1,3)
+        intro = random.randint(1,2)
         match intro:
             case 1:
                 slow_text(f"You're fighting against {enemy_object.getName()}")
@@ -46,6 +47,7 @@ def combat(enemies, enemy_object, player_object, items):
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
+                        enemy_object.setHealth(enemy_health)
                         enemies.remove(enemy)
                         break
                 elif move_choice.lower() == "heal":
@@ -59,6 +61,7 @@ def combat(enemies, enemy_object, player_object, items):
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
+                        enemy_object.setHealth(enemy_health)
                         enemies.remove(enemy)
                         break
                 elif move_choice.lower() == "heal":
