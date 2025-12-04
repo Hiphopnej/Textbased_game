@@ -3,7 +3,7 @@ from text_functions import inquirer_input
 from text_functions import slow_text
 
 # Combat function
-def combat(enemies, enemy_object, player_object):
+def combat(enemies, enemy_object, player_object, items):
     #Ensures that you enter battle with max hp
     player_object.setHealth()
     # For loop to allow for double battles
@@ -16,7 +16,7 @@ def combat(enemies, enemy_object, player_object):
             case 1:
                 slow_text(f"You're fighting against {enemy_object.getName()}")
             case 2:
-                slow_text(f"A {enemy_object.getName()} attacks")
+                slow_text(f"{enemy_object.getName()} attacks")
 
         # The battle begins   
         while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
@@ -34,6 +34,7 @@ def combat(enemies, enemy_object, player_object):
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
                             slow_text("You are defeated")
+                            enemies.remove(enemy)
                             return "player died"
                         else:
                             slow_text("You died")
@@ -70,12 +71,15 @@ def combat(enemies, enemy_object, player_object):
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
                             slow_text("You are defeated")
+                            enemies.remove(enemy)
                             return "player died"
                         else:
                             slow_text("You died")
                             exit()
                 elif attack_chosen == 2:
                     enemy_object.heal()
+    if enemy_object.getName() == "Shadow Creature":
+        max_items(items, player_object)
 
 # Add enemy function
 def add_enemy(enemies, enemyName):
