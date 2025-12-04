@@ -12,4 +12,10 @@ def slow_text(message):
     message += "\n"
     for letter in message:
         print(letter, end="", flush=True)
-        time.sleep(0.03)
+        time.sleep(0.04)
+
+def slower_text(message):
+    message += "\n"
+    for letter in message:
+        print(letter, end="", flush=True)
+        time.sleep(0.2)

@@ -1,6 +1,7 @@
 import random
 from text_functions import inquirer_input
 from text_functions import slow_text
+from text_functions import slower_text
 
 # Combat function
 def combat(enemies, enemy_object, player_object, items, amount):
@@ -11,14 +12,16 @@ def combat(enemies, enemy_object, player_object, items, amount):
     # For loop to allow for double battles
     for enemy in enemies:
         print("--------------------------------------------------------")
-        
-        # Add random intros to the battles
-        intro = random.randint(1,2)
-        match intro:
-            case 1:
-                slow_text(f"You're fighting against {enemy_object.getName()}")
-            case 2:
-                slow_text(f"{enemy_object.getName()} attacks")
+        if enemy == "The True Final Boss: Bartolomeus" or enemy == "The Revived True Final Boss: Bartolomeus":
+            slower_text(f"{enemy_object.getName()} attacks")
+        else:
+            # Add random intros to the battles
+            intro = random.randint(1,2)
+            match intro:
+                case 1:
+                    slow_text(f"You're fighting against {enemy_object.getName()}")
+                case 2:
+                    slow_text(f"{enemy_object.getName()} attacks")
 
         # The battle begins   
         while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
