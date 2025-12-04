@@ -39,11 +39,12 @@ def combat(enemies, enemy_object, player_object, items, amount):
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
                             slow_text("You are defeated")
-                            enemies.remove(enemy)
-                            return "player died"
+                            enemies.remove(enemies[0])
+                            return "player died to final boss"
                         else:
                             slow_text("You died")
-                            exit()
+                            enemies.remove(enemies[0])
+                            return "you died"
                 elif attack_chosen == 2:
                     enemy_object.heal()
                 move_choice = inquirer_input(slow_text("What do you want to do?"), ["Attack", "Heal", "Item"])
@@ -52,7 +53,7 @@ def combat(enemies, enemy_object, player_object, items, amount):
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
                         enemy_object.setHealth(enemy_health)
-                        enemies.remove(enemy)
+                        enemies.remove(enemies[0])
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -66,7 +67,7 @@ def combat(enemies, enemy_object, player_object, items, amount):
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
                         enemy_object.setHealth(enemy_health)
-                        enemies.remove(enemy)
+                        enemies.remove(enemies[0])
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -78,11 +79,12 @@ def combat(enemies, enemy_object, player_object, items, amount):
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
                             slow_text("You are defeated")
-                            enemies.remove(enemy)
-                            return "player died"
+                            enemies.remove(enemies[0])
+                            return "player died to final boss"
                         else:
                             slow_text("You died")
-                            exit()
+                            enemies.remove(enemies[0])
+                            return "you died"
                 elif attack_chosen == 2:
                     enemy_object.heal()
     if enemy_object.getName() == "Shadow Creature":
