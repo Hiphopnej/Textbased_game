@@ -81,6 +81,9 @@ class Player(Charachter):
         self.name = name
         self.inventory = inventory
 
+    def setHealth(self):
+        self.health = 200
+
     def pick_up_item(self):
         item_number = random.randint(1,1000)
         if item_number == 1000:
@@ -100,20 +103,32 @@ class Player(Charachter):
         if len(self.inventory) <= 0:
             slow_text("You don't have any items")
         else:
-            chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory])
+            inventory_length = len(self.inventory)
+            match inventory_length:
+                case 1:
+                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0]])
+                case 2:
+                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1]])
+                case 3:
+                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2]])
+                case 4:
+                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3]])
+                case 5:
+                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3], self.inventory[4]])
             if chosen_item == "ecologic egg launcher":
                 enemy_object.take_damage(1)
                 slow_text(f"{enemy_object.name} took 1 dmg")
             elif chosen_item == "godslayer":
                 enemy_object.take_damage(1000000000000)
                 slow_text(f"{enemy_object.name} took 1000000000000 dmg")
-            elif chosen_item == "attack potion":
+            elif chosen_item == "attack brew":
                 enemy_object.take_damage(80)
                 slow_text(f"{enemy_object.name} took 80 dmg")
-                self.inventory.remove("attack potion")
-            elif chosen_item == "health potion":
+                self.inventory.remove("attack brew")
+            elif chosen_item == "health brew":
                 self.health += 100
-                self.inventory.remove("health potion")
+                slow_text(f"You healed 100hp and now your total hp is {self.health}")
+                self.inventory.remove("health brew")
 
 # Credits
 def credits():
@@ -123,6 +138,8 @@ def credits():
 
 # Combat function
 def combat(enemies, enemy_object, player_object):
+    #Ensures that you enter battle with max hp
+    player_object.setHealth()
     # For loop to allow for double battles
     for enemy in enemies:
         print("--------------------------------------------------------")
@@ -131,10 +148,8 @@ def combat(enemies, enemy_object, player_object):
         intro = random.randint(1,3)
         match intro:
             case 1:
-                slow_text(f"A {enemy_object.getName()} has appeared")
+                slow_text(f"You're fighting against {enemy_object.getName()}")
             case 2:
-                slow_text(f"You're fighting against a {enemy_object.getName()}")
-            case 3:
                 slow_text(f"A {enemy_object.getName()} attacks")
 
         # The battle begins   
@@ -145,14 +160,14 @@ def combat(enemies, enemy_object, player_object):
             print("--------------------------------------------------------")
             start_first = random.randint(1,2)
             if start_first == 1:
-                slow_text(f"{player_object.getHealth()} is faster than you")
+                slow_text(f"{enemy_object.getName()} is faster than you")
                 # Choose a attack for the enemy
                 attack_chosen = random.randint(1,2)
                 if attack_chosen == 1:
                     enemy_object.attack(player_object)
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
-                            slow_text("You died")
+                            slow_text("You are defeated")
                             return "player died"
                         else:
                             slow_text("You died")
@@ -164,7 +179,7 @@ def combat(enemies, enemy_object, player_object):
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
-                        enemies.remove(enemy_object.getName())
+                        enemies.remove(enemy)
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -177,7 +192,7 @@ def combat(enemies, enemy_object, player_object):
                     player_object.attack(enemy_object)
                     if enemy_object.getHealth() <= 0:
                         slow_text("You win the battle")
-                        enemies.remove(enemy_object.getName())
+                        enemies.remove(enemy)
                         break
                 elif move_choice.lower() == "heal":
                     player_object.heal()
@@ -188,7 +203,7 @@ def combat(enemies, enemy_object, player_object):
                     enemy_object.attack(player_object)
                     if player_object.getHealth() <= 0:
                         if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
-                            slow_text("You died")
+                            slow_text("You are defeated")
                             return "player died"
                         else:
                             slow_text("You died")
@@ -268,8 +283,8 @@ player_name = input("Enter your name ")
 
 # Create all objects
 player = Player(200, 20, 90, 10, 50, 80, player_name, items)
-forest_beast = Charachter(50, 10, 20, 5, 10, 20, "Forest Beast")
-shadow_creature = Charachter(100, 30, 50, 10, 20, 30, "Shadow Creature")
+forest_beast = Charachter(100, 10, 195, 5, 10, 20, "Forest Beast")
+shadow_creature = Charachter(125, 30, 50, 10, 20, 30, "Shadow Creature")
 the_forest_shadow = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
 # Hard mode objects
 forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
@@ -463,7 +478,7 @@ elif camp_choice == "Explore":
         add_enemy(enemies, shadow_creature_hard.getName())
         add_enemy(enemies, shadow_creature_hard.getName())
         combat(enemies, shadow_creature_hard, player)
-        max_items()
+        max_items(items, player)
         slow_text(f"When {player.getName()} gets to the final room he finds")
         slow_text(f"{the_forest_shadow_hard.getName()}")
 
@@ -482,26 +497,27 @@ elif camp_choice == "Explore":
         credits()
 
     elif trust_choice == "No":
-        slow_text(f"{player.getName()} decides not to trust {true_final_boss.getName()} probably the best choice")
+        slow_text(f"{player.getName()} decides not to trust {final_boss.getName()} probably the best choice")
         slow_text("You continue to explore the forest")
         slow_text(f"{player.getName()} goes to the middle of the forest but from the shadows behind you a shadow creature appears")
-        add_enemy(enemies, shadow_creature)
+        add_enemy(enemies, shadow_creature.getName())
         combat(enemies, shadow_creature, player)
         slow_text(f"{player.getName()} defeats the shadow creature")
-        max_items()
+        max_items(items, player)
         slow_text(f"After a while {player.getName()} finally reaches the temple")
         slow_text(f"When he enters the temple he encounters three shadow creatures")
-        add_enemy(enemies, shadow_creature)
-        add_enemy(enemies, shadow_creature)
-        add_enemy(enemies, shadow_creature)
+        add_enemy(enemies, shadow_creature.getName())
+        add_enemy(enemies, shadow_creature.getName())
+        add_enemy(enemies, shadow_creature.getName())
         combat(enemies, shadow_creature, player)
-        max_items()
+        max_items(items, player)
         slow_text(f"After defeating the shadow creatures you get to the middle of temple and there you find {final_boss.getName()}?????")
         slow_text(f"{final_boss.getName()} tells you that it was smart not to trust him but that you are going to have to pay for it")
-        add_enemy(enemies, true_final_boss)
+        add_enemy(enemies, true_final_boss.getName())
+        combat(enemies, true_final_boss, player)
         slow_text(f"After seemingly deafeating {final_boss.getName()} his power start seeping out of him and he says")
         slow_text("It's not over yet")
-        add_enemy(enemies, true_final_boss_revived)
+        add_enemy(enemies, true_final_boss_revived.getName())
         dead_or_not = combat(enemies, true_final_boss_revived, player)
         # Evil ending
         if dead_or_not == "player died":
@@ -509,6 +525,7 @@ elif camp_choice == "Explore":
             slow_text(f"{final_boss.getName()} disappears and {player.getName()} feels that he must spread the evil")
             slow_text(f"You have become the Forest Shadow")
             slow_text(f"{player.getName()} continues to spread evil and destroys the village")
+            slow_text("The end")
             credits()
         
         #True ending
