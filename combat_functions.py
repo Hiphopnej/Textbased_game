@@ -3,7 +3,8 @@ from text_functions import inquirer_input
 from text_functions import slow_text
 
 # Combat function
-def combat(enemies, enemy_object, player_object, items):
+def combat(enemies, enemy_object, player_object, items, amount):
+    add_enemy(enemies, enemy_object.getName(), amount)
     #Ensures that you enter battle with max hp
     player_object.setHealth(200)
     enemy_health = enemy_object.getHealth()
@@ -85,8 +86,10 @@ def combat(enemies, enemy_object, player_object, items):
         max_items(items, player_object)
 
 # Add enemy function
-def add_enemy(enemies, enemyName):
-    enemies.append(enemyName)
+def add_enemy(enemies, enemyName, amount):
+    while amount > 0:
+        enemies.append(enemyName)
+        amount -= 1
 
 # Make max items 5
 def max_items(items, player_object):
