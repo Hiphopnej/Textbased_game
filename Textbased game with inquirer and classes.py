@@ -151,8 +151,12 @@ def combat(enemies, enemy_object, player_object):
                 if attack_chosen == 1:
                     enemy_object.attack(player_object)
                     if player_object.getHealth() <= 0:
-                        slow_text("You died")
-                        exit()
+                        if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
+                            slow_text("You died")
+                            return "player died"
+                        else:
+                            slow_text("You died")
+                            exit()
                 elif attack_chosen == 2:
                     enemy_object.heal()
                 move_choice = inquirer_input(slow_text("What do you want to do?"), ["Attack", "Heal", "Item"])
@@ -183,8 +187,12 @@ def combat(enemies, enemy_object, player_object):
                 if attack_chosen == 1:
                     enemy_object.attack(player_object)
                     if player_object.getHealth() <= 0:
-                        slow_text("You died")
-                        exit()
+                        if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
+                            slow_text("You died")
+                            return "player died"
+                        else:
+                            slow_text("You died")
+                            exit()
                 elif attack_chosen == 2:
                     enemy_object.heal()
 
@@ -215,6 +223,10 @@ def final_door_fight(player_object, enemy_object, enemies):
     slow_text("There he meets")
     slow_text("The final boss: The forest shadow")
     slow_text("This is gonna be hard")
+
+    if "Godslayer" in items:
+        items.remove("Godslayer")
+
     add_enemy(enemies, enemy_object.getName())
     combat(enemies, enemy_object, player_object)
     slow_text(f"When {player_object.getName()} defeated the forest shadow the temple suddenly started to fall together")
@@ -264,7 +276,10 @@ forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
 shadow_creature_hard = Charachter(150, 45, 75, 15, 35, 50, "Shadow Creature")
 the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: The Forest Shadow")
 # Hardest boss in the game
-true_final_boss = Charachter(250, 50, 90, 15 ,45, 60, "The True Final Boss: Bartolomeus")
+true_final_boss = Charachter(225, 50, 85, 15 ,40, 50, "The True Final Boss: Bartolomeus")
+true_final_boss_revived = Charachter(275, 50, 90, 15 ,45, 60, "The Revived True Final Boss: Bartolomeus")
+#Exist just for getName()
+final_boss = Charachter(225, 50, 85, 15 ,40, 50, "Bartolomeus")
 
 # Asks if you want to know the rules
 rule_choice = inquirer_input(slow_text("Do you want to know the rules?"), ["Yes", "No"])
@@ -393,6 +408,10 @@ if camp_choice == "Camp":
         slow_text(f"{player.getName()} walks around and finds a back entrance")
         slow_text("Thanks to taking the back entance you get straight to")
         slow_text("The Final Boss: The Forest Shadow")
+        
+        if "Godslayer" in items:
+            items.remove("Godslayer")
+
         add_enemy(enemies, the_forest_shadow.getName())
         combat(enemies, the_forest_shadow, player)
         slow_text(f"When {player.getName()} defeats The Forest Shadow the temple start to crumble")
@@ -414,32 +433,32 @@ elif camp_choice == "Explore":
     slow_text("That was close")
     slow_text("This forest is just it was in the stories")
     slow_text(f"While {player.getName()} was exploring the forest he found and unknown person")
-    slow_text(f"The person introduces themselves as {true_final_boss.getName()}")
-    slow_text(f"{true_final_boss.getName()} said he had previously explored the forest")
+    slow_text(f"The person introduces themselves as {final_boss.getName()}")
+    slow_text(f"{final_boss.getName()} said he had previously explored the forest")
     slow_text("He said had failed to defeat the evil but manages to flee and now lives in the forest")
-    slow_text(f"{true_final_boss.getName()} tells you about a temple in the middle of the forest that houses a monster named The Forest Shadow")
+    slow_text(f"{final_boss.getName()} tells you about a temple in the middle of the forest that houses a monster named The Forest Shadow")
     slow_text("He gives you an item")
     max_items(items, player)
-    slow_text(f"{true_final_boss.getName()} tells you that the shadows creature are part of the forest shadows power")
+    slow_text(f"{final_boss.getName()} tells you that the shadows creature are part of the forest shadows power")
 
-    trust_choice = inquirer_input(slow_text(f"Do you trust {true_final_boss.getName()}?"), ["Yes", "No"])
+    trust_choice = inquirer_input(slow_text(f"Do you trust {final_boss.getName()}?"), ["Yes", "No"])
 
     #If you trust the true final boss(dark ending)
     if trust_choice == "yes":
-        slow_text(f"{true_final_boss.getName()} thanks {player.getName()} for trusting him")
+        slow_text(f"{final_boss.getName()} thanks {player.getName()} for trusting him")
         slow_text("He then takes you to his cabin where you decide to stay for the night")
-        slow_text(f"{true_final_boss.getName()} also gives you another item")
+        slow_text(f"{final_boss.getName()} also gives you another item")
         max_items(items, player)
-        slow_text(f"You get a feeling that {true_final_boss.getName()} is a bit to nice")
+        slow_text(f"You get a feeling that {final_boss.getName()} is a bit to nice")
         slow_text("--------------------------------------------------------")
         slow_text("The next day")
         slow_text("--------------------------------------------------------")
-        slow_text(f"{player.getName()} and {true_final_boss.getName()} goes to the temple where a shadow creature appears")
+        slow_text(f"{player.getName()} and {final_boss.getName()} goes to the temple where a shadow creature appears")
         add_enemy(enemies, shadow_creature_hard.getName())
         combat(enemies, shadow_creature_hard, player)
         max_items(items, player)
         slow_text(f"{player.getName()} felt like the {shadow_creature_hard.getName()} was stronger than normal")
-        slow_text(f"{true_final_boss.getName()} tells you that there is a back entrance you should take")
+        slow_text(f"{final_boss.getName()} tells you that there is a back entrance you should take")
         slow_text("As you approch it two shadow creatures appears")
         add_enemy(enemies, shadow_creature_hard.getName())
         add_enemy(enemies, shadow_creature_hard.getName())
@@ -447,13 +466,59 @@ elif camp_choice == "Explore":
         max_items()
         slow_text(f"When {player.getName()} gets to the final room he finds")
         slow_text(f"{the_forest_shadow_hard.getName()}")
+
+        if "Godslayer" in items:
+            items.remove("Godslayer")
+
         add_enemy(enemies, the_forest_shadow_hard.getName())
         combat(enemies, the_forest_shadow_hard, player)
         slow_text("When you defeat the forest shadow you can feel something though your chest")
-        slow_text(f"{true_final_boss.getName()} had stabbed you from behind")
+        slow_text(f"{final_boss.getName()} had stabbed you from behind")
         slow_text(f"{player.getName()} knew there was something off with him")
-        slow_text(f"{true_final_boss.getName()} tells you how he made the enemys stronger")
-        slow_text(f"In your last breath you see {true_final_boss.getName()} revive the forest shadow")
+        slow_text(f"{final_boss.getName()} tells you how he made the enemys stronger")
+        slow_text(f"In your last breath you see {final_boss.getName()} revive the forest shadow")
         slow_text(f"The mystery of the forest continue and no one remebers {player.getName()}")
         slow_text("The End")
         credits()
+
+    elif trust_choice == "No":
+        slow_text(f"{player.getName()} decides not to trust {true_final_boss.getName()} probably the best choice")
+        slow_text("You continue to explore the forest")
+        slow_text(f"{player.getName()} goes to the middle of the forest but from the shadows behind you a shadow creature appears")
+        add_enemy(enemies, shadow_creature)
+        combat(enemies, shadow_creature, player)
+        slow_text(f"{player.getName()} defeats the shadow creature")
+        max_items()
+        slow_text(f"After a while {player.getName()} finally reaches the temple")
+        slow_text(f"When he enters the temple he encounters three shadow creatures")
+        add_enemy(enemies, shadow_creature)
+        add_enemy(enemies, shadow_creature)
+        add_enemy(enemies, shadow_creature)
+        combat(enemies, shadow_creature, player)
+        max_items()
+        slow_text(f"After defeating the shadow creatures you get to the middle of temple and there you find {final_boss.getName()}?????")
+        slow_text(f"{final_boss.getName()} tells you that it was smart not to trust him but that you are going to have to pay for it")
+        add_enemy(enemies, true_final_boss)
+        slow_text(f"After seemingly deafeating {final_boss.getName()} his power start seeping out of him and he says")
+        slow_text("It's not over yet")
+        add_enemy(enemies, true_final_boss_revived)
+        dead_or_not = combat(enemies, true_final_boss_revived, player)
+        # Evil ending
+        if dead_or_not == "player died":
+            slow_text(f"{final_boss.getName()} power start taking over you")
+            slow_text(f"{final_boss.getName()} disappears and {player.getName()} feels that he must spread the evil")
+            slow_text(f"You have become the Forest Shadow")
+            slow_text(f"{player.getName()} continues to spread evil and destroys the village")
+            credits()
+        
+        #True ending
+        else:
+            slow_text(f"After finally deafeating {final_boss.getName()} his power disappears as he screams nooooooooooooooooooooooooooooooooo!!!!!!")
+            slow_text(f"You leave the temple as it explodes behind you")
+            slow_text(f"The story of {player.getName()} is told for decades to come")
+            slow_text("The True Ending")
+            slow_text("Message from the developer")
+            slow_text("Congratulations for getting the true ending")
+            slow_text("If you have managed to get to this point without using godslayer you have managed to pull off something truly impressive")
+            slow_text("I hope you had fun playing it")
+            slow_text("Thank you")
