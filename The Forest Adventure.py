@@ -8,7 +8,7 @@ from combat_functions import combat
 from combat_functions import max_items
 from other_functions import door_code
 from other_functions import final_door_fight
-
+from other_functions import game_credits
 
 # main
 
@@ -190,7 +190,7 @@ while play_again == "Yes":
             slow_text("You return to the village where you tell the story of what has happened")
             slow_text(f"The story of {player.getName()} is told for decades to come")
             slower_text("The end        ....or is it?")
-            credits()
+            game_credits()
             inquirer_input(slow_text("Do you want to play again"), ["Yes", "No"])
             continue
 
@@ -257,7 +257,7 @@ while play_again == "Yes":
             slower_text(f"In your last breath you see {final_boss.getName()} revive the forest shadow")
             slower_text(f"The mystery of the forest continue and no one remebers {player.getName()}")
             slower_text("The End")
-            credits()
+            game_credits()
             inquirer_input(slow_text("Do you want to play again"), ["Yes", "No"])
             continue
 
@@ -295,7 +295,7 @@ while play_again == "Yes":
                 slower_text(f"You have become the Forest Shadow")
                 slow_text(f"{player.getName()} continues to spread evil and destroys the village")
                 slower_text("The end")
-                credits()
+                game_credits()
                 inquirer_input(slow_text("Do you want to play again"), ["Yes", "No"])
                 continue
             

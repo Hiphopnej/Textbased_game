@@ -4,7 +4,7 @@ from combat_functions import add_enemy
 from combat_functions import max_items
 
 # Credits
-def credits():
+def game_credits():
     slow_text("Code by Alvar Eklind")
     slow_text("Story by Alvar Eklind")
     slow_text("Thanks for playing and hope you enjoyed yourself")
@@ -26,7 +26,7 @@ def final_door_fight(player_object, enemy_object, enemies, items):
     slow_text(f"{player_object.getName()} tries to escapes but sadly doesn't have enough time")
     slow_text(f"The evil mystery is now solved and legends of {player_object.getName()} was told for decades to come")
     slow_text("The end")
-    credits()
+    game_credits()
 
 # Code for door ending
 def door_code(which_door, amount_of_enemies, enemy_object, player_object, enemies, items):
