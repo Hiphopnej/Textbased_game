@@ -17,41 +17,43 @@ enemies = []
 items = []
 play_again = "Yes"
 
-player_name = input("Enter your name ")
-
-# Create all objects
-player = Player(200, 20, 90, 10, 60, 90, player_name, items)
-forest_beast = Charachter(100, 10, 195, 5, 10, 20, "Forest Beast")
-shadow_creature = Charachter(125, 30, 50, 10, 20, 30, "Shadow Creature")
-the_forest_shadow = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
-# Hard mode objects
-forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
-shadow_creature_hard = Charachter(150, 45, 75, 15, 35, 50, "Shadow Creature")
-the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: The Forest Shadow")
-# Hardest boss in the game
-true_final_boss = Charachter(225, 50, 85, 15 ,40, 50, "The True Final Boss: Bartolomeus")
-true_final_boss_revived = Charachter(325, 50, 90, 15 ,50, 70, "The Revived True Final Boss: Bartolomeus")
-#Exists just for getName()
-final_boss = Charachter(225, 50, 85, 15 ,40, 50, "Bartolomeus")
-
-# Asks if you want to know the rules
-rule_choice = inquirer_input(slow_text("Do you want to know the rules?"), ["Yes", "No"])
-
-if rule_choice == "Yes":
-    print("--------------------------------------------------------")
-    slow_text("Welcome to The Forest Adventure")
-    slow_text("This is a turnbased game the allows you to choose your own path")
-    slow_text("After each fight you will get full health except for if you encounter multiple enemies")
-    slow_text("You get an item each time you kill a shadow creature but you can only have a maximum of five items")
-    slow_text("There are a total of four different items you can find with varying rarities and effects")
-    slow_text("You max damage and healing is 100 and 80 respectivly")
-    slow_text("You and the enemy have a 5 percent chance to crit which deals 1.5x damage")
-    slow_text("Good luck and have fun")
-    print("--------------------------------------------------------")
-
-are_you_ready = inquirer_input(slow_text("Are you ready to start?"), ["Yes"])
 
 while play_again == "Yes":
+
+    player_name = input("Enter your name ")
+
+    # Create all objects
+    player = Player(200, 20, 90, 10, 60, 90, player_name, items)
+    forest_beast = Charachter(100, 10, 195, 5, 10, 20, "Forest Beast")
+    shadow_creature = Charachter(125, 30, 50, 10, 20, 30, "Shadow Creature")
+    the_forest_shadow = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
+    # Hard mode objects
+    forest_beast_hard = Charachter(75, 15, 30, 10, 15, 30, "Forest Beast")
+    shadow_creature_hard = Charachter(150, 45, 75, 15, 35, 50, "Shadow Creature")
+    the_forest_shadow_hard = Charachter(200, 50, 80, 10 ,45, 60, "The Final Boss: The Forest Shadow")
+    # Hardest boss in the game
+    true_final_boss = Charachter(225, 50, 85, 15 ,40, 50, "The True Final Boss: Bartolomeus")
+    true_final_boss_revived = Charachter(325, 50, 90, 15 ,50, 70, "The Revived True Final Boss: Bartolomeus")
+    #Exists just for getName()
+    final_boss = Charachter(225, 50, 85, 15 ,40, 50, "Bartolomeus")
+
+    # Asks if you want to know the rules
+    rule_choice = inquirer_input(slow_text("Do you want to know the rules?"), ["Yes", "No"])
+
+    if rule_choice == "Yes":
+        print("--------------------------------------------------------")
+        slow_text("Welcome to The Forest Adventure")
+        slow_text("This is a turnbased game the allows you to choose your own path")
+        slow_text("After each fight you will get full health except for if you encounter multiple enemies")
+        slow_text("You get an item each time you kill a shadow creature but you can only have a maximum of five items")
+        slow_text("There are a total of four different items you can find with varying rarities and effects")
+        slow_text("You max damage and healing is 100 and 80 respectivly")
+        slow_text("You and the enemy have a 5 percent chance to crit which deals 1.5x damage")
+        slow_text("Good luck and have fun")
+        print("--------------------------------------------------------")
+
+    are_you_ready = inquirer_input(slow_text("Are you ready to start?"), ["Yes"])
+
     # The game begins
     slow_text("There once was a mysterious forest")
     slow_text("It was dim and quiet and all who lived in the nearby village was telling scary stories about it")
