@@ -207,7 +207,7 @@ while play_again == "Yes":
                 continue
         slow_text("That was close")
         slow_text("This forest is just like it was in the stories")
-        slow_text(f"While {player.getName()} was exploring the forest he found and unknown person")
+        slow_text(f"While {player.getName()} was exploring the forest he found an unknown person")
         slow_text(f"The person introduces themselves as {final_boss.getName()}")
         slow_text(f"{final_boss.getName()} said he had previously explored the forest")
         slow_text("He said had failed to defeat the evil but manages to flee and now lives in the forest")
