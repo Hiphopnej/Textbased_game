@@ -26,7 +26,7 @@ class Charachter:
         # Calculate total damage
         total_dmg = self.base_dmg + dmg
         enemy_object.take_damage(total_dmg)
-        slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg")
+        slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg", 0.04)
     
     def heal(self):
         # Calculate heal amount
@@ -34,7 +34,7 @@ class Charachter:
 
         # Heal
         self.health += heal_amount
-        slow_text(f"{self.name} healed {heal_amount}hp and now their total hp is: {self.health}hp")
+        slow_text(f"{self.name} healed {heal_amount}hp and now their total hp is: {self.health}hp", 0.04)
 
     def getName(self):
         return self.name
@@ -68,29 +68,29 @@ class Player(Charachter):
         if crit == 9:
             crit_dmg = total_dmg * 1.5
             enemy_object.take_damage(crit_dmg)
-            slow_text(f"You got a crit and dealt {crit_dmg} to {enemy_object.name}")
+            slow_text(f"You got a crit and dealt {crit_dmg} to {enemy_object.name}", 0.04)
         else:
             enemy_object.take_damage(total_dmg)
-            slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg")
+            slow_text(f"{enemy_object.name} took {total_dmg} amount of dmg", 0.04)
 
     def pick_up_item(self):
         item_number = random.randint(1,1000)
         if item_number == 1000:
             self.inventory.append("ecologic egg launcher")
-            slow_text("You got a Ecologic egg launcher")
+            slow_text("You got a Ecologic egg launcher", 0.04)
         elif item_number >= 989 and item_number < 1000:
             self.inventory.append("godslayer")
-            slow_text("You got the Godslayer")
+            slow_text("You got the Godslayer", 0.04)
         elif item_number >= 0 and item_number <= 495:
             self.inventory.append("attack brew")
-            slow_text("You got a attack brew")
+            slow_text("You got a attack brew", 0.04)
         else:
             self.inventory.append("health brew")
-            slow_text("You got a health brew")
+            slow_text("You got a health brew", 0.04)
 
     def use_item(self, enemy_object):
         if len(self.inventory) <= 0:
-            slow_text("You don't have any items")
+            slow_text("You don't have any items", 0.04)
         else:
             inventory_length = len(self.inventory)
             match inventory_length:
@@ -106,15 +106,15 @@ class Player(Charachter):
                     chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3], self.inventory[4]])
             if chosen_item == "ecologic egg launcher":
                 enemy_object.take_damage(1)
-                slow_text(f"{enemy_object.name} took 1 dmg")
+                slow_text(f"{enemy_object.name} took 1 dmg", 0.04)
             elif chosen_item == "godslayer":
                 enemy_object.take_damage(1000000000000)
-                slow_text(f"{enemy_object.name} took 1000000000000 dmg")
+                slow_text(f"{enemy_object.name} took 1000000000000 dmg", 0.04)
             elif chosen_item == "attack brew":
                 enemy_object.take_damage(80)
-                slow_text(f"{enemy_object.name} took 80 dmg")
+                slow_text(f"{enemy_object.name} took 80 dmg", 0.04)
                 self.inventory.remove("attack brew")
             elif chosen_item == "health brew":
                 self.health += 100
-                slow_text(f"You healed 100hp and now your total hp is {self.health}")
+                slow_text(f"You healed 100hp and now your total hp is {self.health}", 0.04)
                 self.inventory.remove("health brew")

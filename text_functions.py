@@ -8,14 +8,11 @@ def inquirer_input(message_param, options):
     ).execute()
     return choice
 
-def slow_text(message):
-    message += "\n"
-    for letter in message:
-        print(letter, end="", flush=True)
-        time.sleep(0.04)
+# wait time is 0.04 for normal text
+# and 0.1 for intense text
 
-def slower_text(message):
+def slow_text(message, wait_time):
     message += "\n"
     for letter in message:
         print(letter, end="", flush=True)
-        time.sleep(0.2)
+        time.sleep(wait_time)
