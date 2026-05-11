@@ -1,6 +1,5 @@
 import random
-from text_functions import inquirer_input
-from text_functions import slow_text
+from text_functions import inquirer_input, slow_text
 
 # Combat function
 def combat(enemies, enemy_object, player_object, items, amount):
@@ -108,3 +107,38 @@ def max_items(items, player_object):
         slow_text("You can't pick up any more items", 0.04)
     else:
         player_object.pick_up_item()
+
+def gain_xp(self, amount):
+    self.xp += amount
+    #Du fick xp
+
+def level_up(self):
+    self.level += 1
+    self.xp -= self.xp_to_next
+    self.xp_to_next = int(self.xp_to_next * 1.4)
+
+    #Du är nu level
+
+    if self.player_class.lower() == "mage":
+        hp_gain += 20
+        strength_gain += 1
+        magic_gain += 5
+        mp_gain += 10
+    elif self.player_class.lower() == "warrior":
+        hp_gain += 30
+        strength_gain += 5
+        magic_gain += 1
+        mp_gain += 5
+
+    self.max_hp += hp_gain
+    self.hp = self.max_hp
+    self.max_mp += mp_gain
+    self.mp = self.max_mp
+    self.strength += strength_gain
+    self.magic += magic_gain
+    self.mp += mp_gain
+
+    slow_text(f"Your max hp incresed by {hp_gain} and is now {self.max_hp}", 0.04)
+    slow_text(f"Your max mp incresed by {mp_gain} and is now {self.max_mp}", 0.04)
+    slow_text(f"Your strength incresed by {strength_gain} and is now {self.strength}", 0.04)
+    slow_text(f"Your magic incresed by {magic_gain} and is now {self.magic}", 0.04)

@@ -1,6 +1,5 @@
 import random
-from text_functions import inquirer_input
-from text_functions import slow_text
+from text_functions import inquirer_input, slow_text
 
 class Charachter:
     # Initiate all varibles
@@ -44,15 +43,40 @@ class Charachter:
 
 # Player class that inherits from Charachter class
 class Player(Charachter):
-    def __init__(self, health, dmgLower, dmgHigher, base_dmg, healingLower, healingHigher, name, inventory):
-        self.health = health
-        self.dmgLower = dmgLower
-        self.dmgHigher = dmgHigher
-        self.base_dmg = base_dmg
-        self.healingLower = healingLower
-        self.healingHigher = healingHigher
+    def __init__(self, name, player_class):
         self.name = name
-        self.inventory = inventory
+        self.inventory = []
+        self.player_class = player_class
+        self.xp = 0
+        self.xp_to_next = 100
+        self.level = 1
+        self.money = 20
+
+        # Classes are Warrior and Mage
+        if player_class.lower() == "warrior":
+            self.health = 150+(self.level*5)
+            self.dmgLower = 30+(self.level*5)
+            self.dmgHigher = 90+(self.level*5)
+            self.base_dmg = 15+(self.level*5)
+            self.strength = 10+(self.level*5)
+            self.healingLower = 30+(self.level*5)
+            self.healingHigher = 60+(self.level*5)
+            self.mp = 10+(self.level*5)
+            self.magic = 5+(self.level*5)
+            self.weapon = "sword"
+            self.spells = ["fireball","excalibur"] # excalibur ska göra massvis med damage men kosta jättemycket mp
+        elif player_class.lower() == "mage":
+            self.health = 175+(self.level*5)
+            self.dmgLower = 20+(self.level*5)
+            self.dmgHigher = 70+(self.level*5)
+            self.base_dmg = 10+(self.level*5)
+            self.strength = 5+(self.level*5)
+            self.healingLower = 40+(self.level*5)
+            self.healingHigher = 70+(self.level*5)
+            self.mp = 25+(self.level*5)
+            self.magic = 20+(self.level*5)
+            self.weapon = "magic staff"
+            self.spells = ["fireball", "magic missile", "avalon"] # avalon ska göra så att man gör mer damage och får healing over time men kosta massor med mp
 
     def attack(self, enemy_object):
         # Calulate dmg
@@ -118,3 +142,18 @@ class Player(Charachter):
                 self.health += 100
                 slow_text(f"You healed 100hp and now your total hp is {self.health}", 0.04)
                 self.inventory.remove("health brew")
+    @staticmethod
+    def from_save(data):
+        player = Player(data["name"], data["player_class"])
+        player.level = data["level"]
+        player.xp = data["xp"]
+        player.xp_to_next = data["xp_to_next"]
+        player.health = data["health"]
+        player.mp = data["mp"]
+        player.strength = data["strength"]
+        player.magic = data["magic"]
+        player.weapon = data["weapon"]
+        player.spells = data["spells"]
+        player.inventory = data["inventory"]
+        player.money = data["money"]
+        return player

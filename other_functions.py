@@ -1,7 +1,7 @@
-from text_functions import slow_text
-from combat_functions import combat
-from combat_functions import add_enemy
-from combat_functions import max_items
+from text_functions import slow_text, inquirer_input
+from combat_functions import combat, add_enemy, max_items
+from save_functions import save_game
+from classes import Player
 
 # Credits
 def game_credits():
@@ -50,3 +50,11 @@ def door_code(which_door, amount_of_enemies, enemy_object, player_object, enemie
         max_items(items, player_object)
         max_items(items, player_object)
         max_items(items, player_object)
+
+def create_charachter():
+    player_name = input("Enter your name ")  
+    player_class = inquirer_input(slow_text("Choose a class", 0.04), ["Mage", "Warrior"])
+    player = Player(player_name, player_class)
+    #Create a json file with the same name as the player name
+    save_game(player, 0)
+    return player
