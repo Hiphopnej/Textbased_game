@@ -111,37 +111,68 @@ class Player(Charachter):
         else:
             self.inventory.append("health brew")
             slow_text("You got a health brew", 0.04)
-
+    
+    def match_inventory(self):
+        inventory_length = len(self.inventory)
+        match inventory_length:
+            case 1:
+                chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0]])
+                return chosen_item
+            case 2:
+                chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1]])
+                return chosen_item
+            case 3:
+                chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2]])
+                return chosen_item
+            case 4:
+                chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3]])
+                return chosen_item
+            case 5:
+                chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3], self.inventory[4]])
+                return chosen_item
     def use_item(self, enemy_object):
         if len(self.inventory) <= 0:
             slow_text("You don't have any items", 0.04)
         else:
-            inventory_length = len(self.inventory)
-            match inventory_length:
-                case 1:
-                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0]])
-                case 2:
-                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1]])
-                case 3:
-                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2]])
-                case 4:
-                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3]])
-                case 5:
-                    chosen_item = inquirer_input(f"What item do you want to use: {self.inventory}", [self.inventory[0], self.inventory[1], self.inventory[2], self.inventory[3], self.inventory[4]])
-            if chosen_item == "ecologic egg launcher":
-                enemy_object.take_damage(1)
-                slow_text(f"{enemy_object.name} took 1 dmg", 0.04)
-            elif chosen_item == "godslayer":
-                enemy_object.take_damage(1000000000000)
-                slow_text(f"{enemy_object.name} took 1000000000000 dmg", 0.04)
-            elif chosen_item == "attack brew":
-                enemy_object.take_damage(80)
-                slow_text(f"{enemy_object.name} took 80 dmg", 0.04)
-                self.inventory.remove("attack brew")
-            elif chosen_item == "health brew":
-                self.health += 100
-                slow_text(f"You healed 100hp and now your total hp is {self.health}", 0.04)
-                self.inventory.remove("health brew")
+            chosen_item = self.match_inventory()
+            while chosen_item == "ecologic egg launcher":
+                check_or_use = inquirer_input("Do you want to check the item description or use it", ["use","check description"])
+                if check_or_use == "check description":
+                    slow_text("Shoots an ecologic egg at the enemy dealing massive damage", 0.04)
+                    chosen_item = self.match_inventory()
+                elif check_or_use == "use":
+                    enemy_object.take_damage(1)
+                    slow_text(f"{enemy_object.name} took 1 dmg", 0.04)
+                    break
+            while chosen_item == "godslayer":
+                check_or_use = inquirer_input("Do you want to check the item description or use it", ["use","check description"])
+                if check_or_use == "check description":
+                    slow_text("?????", 0.04)
+                    chosen_item = self.match_inventory()
+                elif check_or_use == "use":
+                    enemy_object.take_damage(1000000000000)
+                    slow_text(f"{enemy_object.name} took 1000000000000 dmg", 0.04)
+                    break
+            while chosen_item == "attack brew":
+                check_or_use = inquirer_input("Do you want to check the item description or use it", ["use","check description"])
+                if check_or_use == "check description":
+                    slow_text("An attack brew that you can throw at your enemy dealing 80 damage", 0.04)
+                    chosen_item = self.match_inventory()
+                elif check_or_use == "use":
+                    enemy_object.take_damage(80)
+                    slow_text(f"{enemy_object.name} took 80 dmg", 0.04)
+                    self.inventory.remove("attack brew")
+                    break
+            while chosen_item == "health brew":
+                check_or_use = inquirer_input("Do you want to check the item description or use it", ["use","check description"])
+                if check_or_use == "check description":
+                    slow_text("A healing brew that you can drink in order to heal 100 health", 0.04)
+                    chosen_item = self.match_inventory()
+                elif check_or_use == "use":
+                    self.health += 100
+                    slow_text(f"You healed 100hp and now your total hp is {self.health}", 0.04)
+                    self.inventory.remove("health brew")
+                    break
     @staticmethod
     def from_save(data):
         player = Player(data["name"], data["player_class"])

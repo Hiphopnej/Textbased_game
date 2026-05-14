@@ -1,9 +1,15 @@
 import json
+from pathlib import Path
 from text_functions import slow_text
 
-SAVE_FOLDER = "saves/"
+SAVE_FOLDER = Path("saves/")
 
 def save_game(player, current_chapter):
+    # Create folder if there doesn't exist one
+    SAVE_FOLDER.mkdir(exist_ok=True)
+
+    file_path = SAVE_FOLDER / f"{player.name}.json"
+
     data = {
         "name": player.name,
         "player_class": player.player_class,
@@ -25,15 +31,17 @@ def save_game(player, current_chapter):
 
     data_list = [data]
 
-    with open(SAVE_FOLDER+player.name+".json", "w") as file:
+    with open(file_path, "w") as file:
         json.dump(data_list, file)
 
     slow_text("Game has been saved", 0.04)
 
 def load_game(player_name):
     try:
-        with open(SAVE_FOLDER+player_name, "r") as file:
+        file_path = SAVE_FOLDER / f"{player_name}.json"
+        with open(file_path, "r") as file:
             data = json.load(file)
+            
         return data
     except FileNotFoundError:
         print("File not Found")
