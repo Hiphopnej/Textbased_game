@@ -25,7 +25,12 @@ while play_again == "Yes":
             slow_text("No save file found", 0.04)
             continue
         else:
-            player_name = inquirer_input(slow_text("Choose a player", 0.04), onlyfiles)
+            # Makes it so .json doesn't get displayed
+            filemap = {f.replace(".json", ""): f for f in onlyfiles}
+
+            player_choice = inquirer_input(slow_text("Choose a player", 0.04), list(filemap.keys()))
+
+            player_name = filemap[player_choice]
         # Loads game
         save_data = load_game(player_name)
         save_data = save_data[0]
@@ -34,7 +39,7 @@ while play_again == "Yes":
             continue
         player = Player.from_save(save_data)
         chapter = save_data["current_chapter"]
-        start_story(player, enemies, start_at=chapter)
+        play_again = start_story(player, enemies, start_at=chapter)
 
     # List of all objects
     """

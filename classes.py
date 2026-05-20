@@ -51,12 +51,13 @@ class Player(Charachter):
         self.xp_to_next = 100
         self.level = 1
         self.money = 20
+        self.godslayer_list = []
 
         # Classes are Warrior and Mage
         if player_class.lower() == "warrior":
             self.health = 150+(self.level*5)
-            self.dmgLower = 30+(self.level*5)
-            self.dmgHigher = 90+(self.level*5)
+            self.dmgLower = 3000+(self.level*5)
+            self.dmgHigher = 9000+(self.level*5)
             self.base_dmg = 15+(self.level*5)
             self.strength = 10+(self.level*5)
             self.healingLower = 30+(self.level*5)
@@ -132,6 +133,8 @@ class Player(Charachter):
                 enemy_object.take_damage(1)
                 slow_text(f"{enemy_object.name} took 1 dmg", 0.04)
             elif chosen_item == "godslayer":
+                self.godslayer_list.append(enemy_object.getName())
+
                 enemy_object.take_damage(1000000000000)
                 slow_text(f"{enemy_object.name} took 1000000000000 dmg", 0.04)
             elif chosen_item == "attack brew":

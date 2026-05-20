@@ -1,98 +1,149 @@
 import random
 from text_functions import inquirer_input, slow_text
+from classes import Charachter
 
 # Combat function
-def combat(enemies, enemy_object, player_object, items, amount):
-    enemies = add_enemy(enemies, enemy_object.getName(), amount)
+def combat(enemies, enemy_object, player_object, items):
     #Ensures that you enter battle with max hp
-    player_object.setHealth(200)
-    enemy_health = enemy_object.getHealth()
-    # While loop to allow for battles against multiple enemies
-    while True:
-        if len(enemies) > 0:
-            enemy = enemies[0]
-            print("--------------------------------------------------------")
-            if enemy == "The True Final Boss: Bartolomeus" or enemy == "The Revived True Final Boss: Bartolomeus":
-                slow_text(f"{enemy_object.getName()} attacks", 0.1)
-            else:
-                # Add random intros to the battles
-                intro = random.randint(1,2)
-                match intro:
-                    case 1:
-                        slow_text(f"You're fighting against {enemy_object.getName()}", 0.04)
-                    case 2:
-                        slow_text(f"{enemy_object.getName()} attacks", 0.04)
+    if player_object.player_class.lower() == "warrior":
+        player_object.setHealth(150)
+    elif player_object.player_class.lower() == "mage":
+        player_object.setHealth(175)
 
-            # The battle begins   
-            while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
-                # Write out player health and enemy health
-                print("--------------------------------------------------------")
-                slow_text(f"You have {player_object.getHealth()}hp and {enemy_object.getName()} has {enemy_object.getHealth()}hp", 0.04)
-                print("--------------------------------------------------------")
-                start_first = random.randint(1,2)
-                if start_first == 1:
-                    slow_text(f"{enemy_object.getName()} is faster than you", 0.04)
-                    # Choose a attack for the enemy
-                    attack_chosen = random.randint(1,2)
-                    if attack_chosen == 1:
-                        enemy_object.attack(player_object)
-                        if player_object.getHealth() <= 0:
-                            if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
-                                slow_text("You are defeated", 0.04)
-                                return "player died to final boss"
-                            else:
-                                slow_text("You died", 0.04)
-                                return "you died"
-                    elif attack_chosen == 2:
-                        enemy_object.heal()
-                    move_choice = inquirer_input(slow_text("What do you want to do?", 0.04), ["Attack", "Heal", "Item"])
-                    if move_choice.lower() == "attack":
-                        player_object.attack(enemy_object)
-                        if enemy_object.getHealth() <= 0:
-                            slow_text("You win the battle", 0.04)
-                            enemy_object.setHealth(enemy_health)
-                            enemies.remove(enemy_object.getName())
-                            if len(enemies) <= 1:
-                                if enemy_object.getName() == "Shadow Creature":
-                                    max_items(items, player_object)
-                                return "You won"
-                            elif len(enemies) > 1:
-                                continue
-                    elif move_choice.lower() == "heal":
-                        player_object.heal()
-                    elif move_choice.lower() == "item":
-                        player_object.use_item(enemy_object)
-                elif start_first == 2:
-                    # Your attack
-                    move_choice = inquirer_input(slow_text("What do you want to do?", 0.04), ["Attack", "Heal", "Item"])
-                    if move_choice.lower() == "attack":
-                        player_object.attack(enemy_object)
-                        if enemy_object.getHealth() <= 0:
-                            slow_text("You win the battle", 0.04)
-                            enemy_object.setHealth(enemy_health)
-                            enemies.remove(enemy_object.getName())
-                            if len(enemies) <= 0:
-                                if enemy_object.getName() == "Shadow Creature":
-                                    max_items(items, player_object)
-                                return "You won"
-                            elif len(enemies) > 0:
-                                continue
-                    elif move_choice.lower() == "heal":
-                        player_object.heal()
-                    elif move_choice.lower() == "item":
-                        player_object.use_item(enemy_object)
-                    attack_chosen = random.randint(1,2)
-                    if attack_chosen == 1:
-                        enemy_object.attack(player_object)
-                        if player_object.getHealth() <= 0:
-                            if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
-                                slow_text("You are defeated", 0.04)
-                                return "player died to final boss"
-                            else:
-                                slow_text("You died", 0.04)
-                                return "you died"
-                    elif attack_chosen == 2:
-                        enemy_object.heal()
+    # While loop to allow for battles against multiple enemies
+    while len(enemies) > 0:
+        enemy = enemies[0]
+
+        # Recreate correct enemy based on name
+        if enemy == "Forest Beast":
+            enemy_object = Charachter(100, 10, 195, 5, 10, 20, "Forest Beast")
+        elif enemy == "Shadow Creature":
+            enemy_object = Charachter(125, 30, 50, 10, 20, 30, "Shadow Creature")
+        elif enemy == "The Final Boss: The Forest Shadow":
+            enemy_object = Charachter(150, 50, 70, 10, 30, 40, "The Final Boss: The Forest Shadow")
+        elif enemy == "The True Final Boss: Bartolomeus":
+            enemy_object = Charachter(225, 50, 85, 15 ,40, 50, "The True Final Boss: Bartolomeus")
+        elif enemy == "The Revived True Final Boss: Bartolomeus":
+            enemy_object = Charachter(325, 50, 90, 15 ,50, 70, "The Revived True Final Boss: Bartolomeus")
+
+        enemy_health = enemy_object.getHealth()
+
+        print("--------------------------------------------------------")
+
+        if enemy == "The True Final Boss: Bartolomeus" or enemy == "The Revived True Final Boss: Bartolomeus":
+            slow_text(f"{enemy_object.getName()} attacks", 0.1)
+        else:
+            # Add random intros to the battles
+            intro = random.randint(1,2)
+            match intro:
+                case 1:
+                    slow_text(f"You're fighting against {enemy_object.getName()}", 0.04)
+                case 2:
+                    slow_text(f"{enemy_object.getName()} attacks", 0.04)
+
+        # The battle begins   
+        while player_object.getHealth() > 0 and enemy_object.getHealth() > 0:
+            # Write out player health and enemy health
+            print("--------------------------------------------------------")
+            slow_text(f"You have {player_object.getHealth()}hp and {enemy_object.getName()} has {enemy_object.getHealth()}hp", 0.04)
+            print("--------------------------------------------------------")
+
+            start_first = random.randint(1,2)
+
+            if start_first == 1:
+                slow_text(f"{enemy_object.getName()} is faster than you", 0.04)
+
+                # Choose a attack for the enemy
+                attack_chosen = random.randint(1,2)
+
+                if attack_chosen == 1:
+                    enemy_object.attack(player_object)
+
+                    if player_object.getHealth() <= 0:
+                        if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
+                            slow_text("You are defeated", 0.04)
+                            return "player died to final boss"
+                        else:
+                            slow_text("You died", 0.04)
+                            return "you died"
+
+                elif attack_chosen == 2:
+                    enemy_object.heal()
+
+                move_choice = inquirer_input(
+                    slow_text("What do you want to do?", 0.04),
+                    ["Attack", "Heal", "Item"]
+                )
+
+                if move_choice.lower() == "attack":
+                    player_object.attack(enemy_object)
+
+                    if enemy_object.getHealth() <= 0:
+                        slow_text("You win the battle", 0.04)
+
+                        # Remove defeated enemy
+                        enemies.pop(0)
+
+                        if len(enemies) == 0:
+                            if enemy_object.getName() == "Shadow Creature":
+                                max_items(items, player_object)
+                            return "You won"
+                        else:
+                            break
+
+                elif move_choice.lower() == "heal":
+                    player_object.heal()
+
+                elif move_choice.lower() == "item":
+                    player_object.use_item(enemy_object)
+
+            elif start_first == 2:
+                # Your attack
+                move_choice = inquirer_input(
+                    slow_text("What do you want to do?", 0.04),
+                    ["Attack", "Heal", "Item"]
+                )
+
+                if move_choice.lower() == "attack":
+                    player_object.attack(enemy_object)
+
+                    if enemy_object.getHealth() <= 0:
+                        slow_text("You win the battle", 0.04)
+
+                        # Remove defeated enemy
+                        enemies.pop(0)
+
+                        if len(enemies) == 0:
+                            if enemy_object.getName() == "Shadow Creature":
+                                max_items(items, player_object)
+                            return "You won"
+                        else:
+                            break
+
+                elif move_choice.lower() == "heal":
+                    player_object.heal()
+
+                elif move_choice.lower() == "item":
+                    player_object.use_item(enemy_object)
+
+                attack_chosen = random.randint(1,2)
+
+                if attack_chosen == 1:
+                    enemy_object.attack(player_object)
+
+                    if player_object.getHealth() <= 0:
+                        if enemy_object.getName() == "The Revived True Final Boss: Bartolomeus":
+                            slow_text("You are defeated", 0.04)
+                            return "player died to final boss"
+                        else:
+                            slow_text("You died", 0.04)
+                            return "you died"
+
+                elif attack_chosen == 2:
+                    enemy_object.heal()
+
+    return "You won"
+
 
 # Add enemy function
 def add_enemy(enemies, enemyName, amount):
@@ -101,6 +152,7 @@ def add_enemy(enemies, enemyName, amount):
         amount -= 1
     return enemies
 
+
 # Make max items 5
 def max_items(items, player_object):
     if len(items) == 5:
@@ -108,9 +160,11 @@ def max_items(items, player_object):
     else:
         player_object.pick_up_item()
 
+
 def gain_xp(self, amount):
     self.xp += amount
     #Du fick xp
+
 
 def level_up(self):
     self.level += 1
@@ -118,6 +172,11 @@ def level_up(self):
     self.xp_to_next = int(self.xp_to_next * 1.4)
 
     #Du är nu level
+
+    hp_gain = 0
+    strength_gain = 0
+    magic_gain = 0
+    mp_gain = 0
 
     if self.player_class.lower() == "mage":
         hp_gain += 20
@@ -136,7 +195,6 @@ def level_up(self):
     self.mp = self.max_mp
     self.strength += strength_gain
     self.magic += magic_gain
-    self.mp += mp_gain
 
     slow_text(f"Your max hp incresed by {hp_gain} and is now {self.max_hp}", 0.04)
     slow_text(f"Your max mp incresed by {mp_gain} and is now {self.max_mp}", 0.04)
