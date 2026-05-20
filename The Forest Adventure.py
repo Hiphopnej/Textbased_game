@@ -20,7 +20,7 @@ while play_again == "Yes":
         start_story(player, enemies)
     elif save_choice == "Continue":
         # Get all of the files in the saves folder
-        onlyfiles = [f for f in os.listdir("saves/") if os.path.isfile(os.path.join("saves/", f))]
+        onlyfiles = [f.replace(".json", "") for f in os.listdir("saves/") if os.path.isfile(os.path.join("saves/", f))]
         if onlyfiles == []:
             slow_text("No save file found", 0.04)
             continue
