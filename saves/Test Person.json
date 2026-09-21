@@ -1,0 +1,1 @@
+[{"name": "Test Person", "player_class": "Warrior", "level": 1, "xp": 0, "xp_to_next": 100, "health": 95, "mp": 15, "strength": 15, "magic": 10, "weapon": "sword", "dmgLower": 35, "dmgHigher": 95, "spells": ["fireball", "excalibur"], "inventory": ["health brew", "godslayer"], "money": 20, "current_chapter": 2.1}]
